@@ -1,0 +1,131 @@
+#include<iostream>
+#include<string>
+#include <iomanip>
+#include <algorithm>
+
+using namespace std;
+
+using ll = long long;
+  
+class Store {
+protected:
+	string loaisp,tensp;
+};
+
+class Product: private Store {
+private:
+	int dongia, soluong;
+public:
+	friend istream& operator >> (istream& in, Product& product);
+	friend ostream& operator << (ostream& out, Product product);
+};
+istream& operator >> (istream& in, Product& product) {
+	in.ignore();
+	cout << "Nhap loai san pham: " ;
+	getline(in, product.loaisp);
+	cout << "Nhap ten san pham: ";
+	in.ignore();
+	getline(in, product.tensp);
+	cout << "So Luong: ";
+	in >> product.soluong;
+	cout << "Don gia: ";
+	in >> product.dongia;
+	return in;
+}
+ostream& operator << (ostream& out, Product product) {
+	out << "Loai san pham: " << product.loaisp << " " << "Ten san pham: " << product.tensp << " " << " So luong: " << product.soluong << " " << "Don gia: " << product.dongia << endl;
+    return out;
+}
+
+int show_menu();
+void show_products(Product *products,int size);
+void add_products(Product*& products, int &size);
+int main() {
+
+	int size = 0;
+	Product* product = new Product[size];
+
+	while (true) {
+
+		int chose = show_menu();
+
+		system("cls");
+
+		switch (chose) {
+		case 1:
+			show_products(product, size);
+			break;
+		case 2:
+			add_products(product, size);
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 0:
+			cout << "Tam biet !!!" << endl;
+			return 0;
+		default:
+			cout << "Lua chon khong hop le." << endl;
+
+		}
+		cout << "Ban co muon tiep tuc khong?" << endl;
+		cout << "Chon 1 neu tiep tuc." << endl;
+		cout << "Chon 0 de thoat chuong trinh." << endl;
+		bool is_continue;
+		cin >> is_continue;
+
+		if (!is_continue) {
+			cout << "Tam biet!!!";
+			exit;
+		}
+	}
+	return 0;
+
+}
+
+int show_menu() {
+	int chose;
+	system("cls");
+
+	cout << "====== MENU =====" << endl;
+	cout << "1. Xem danh sach san pham" << endl;
+	cout << "2. Them san pham moi" << endl;
+	cout << "3. Xoa san pham" << endl;
+	cout << "4. Hoa don thanh toan" << endl;
+	cout << "0. Thoat chuong trinh" << endl;
+
+	cout << "Lua chon cua ban la: ";
+	cin >> chose;
+
+	return chose;
+}
+void show_products(Product* product, int size) {
+	if (size == 0) {
+		cout << "Chua co san pham." << endl;
+		cout << "Vui long nhap san pham." << endl;
+	}
+	else {
+		for (int i = 0; i < size; i++) {
+			cout << product[i] << endl;
+		}
+	}
+	
+}
+
+void add_products(Product*& products, int&size) {
+	int new_size = size + 1;
+	Product *new_products = new Product[new_size];
+	Product add_product;
+	cout << "Nhap thong tin san pham muon them. " << endl;
+	cin >> add_product;
+	for (int i = 0; i < size; i++) {
+		new_products[i] = products[i];
+	}
+
+	delete[] products;
+	new_products[new_size - 1] = add_product;
+	products = new_products;
+	size = new_size;
+	cout << "Them san pham thanh cong." << endl;
+}

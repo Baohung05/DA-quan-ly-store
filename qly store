@@ -40,6 +40,7 @@ ostream& operator << (ostream& out, Product product) {
 int show_menu();
 void show_products(Product *products,int size);
 void add_products(Product*& products, int &size);
+void show_and_delete(Product*&products, int& size);
 int main() {
 
 	int size = 0;
@@ -59,6 +60,7 @@ int main() {
 			add_products(product, size);
 			break;
 		case 3:
+                        show_and_delete(product, size);
 			break;
 		case 4:
 			break;
@@ -128,4 +130,31 @@ void add_products(Product*& products, int&size) {
 	products = new_products;
 	size = new_size;
 	cout << "Them san pham thanh cong." << endl;
+}
+void delete_product(Product*& products, int& size, int index) {
+    if (index < 0 || index >= size) {
+        cout << "Chi so khong hop le." << endl;
+        return;
+    }
+    Product* new_products = new Product[size - 1];
+    for (int i = 0, j = 0; i < size; i++) {
+        if (i != index) {
+            new_products[j++] = products[i];
+        }
+    }
+    delete[] products;
+    products = new_products;
+    size--;
+    cout << "Xoa san pham thanh cong." << endl;
+}
+
+void show_and_delete(Product*& products, int& size) {
+    show_products(products, size);
+    if (size == 0) {
+        return;
+    }
+    int index;
+    cout << "Ban muon xoa san pham thu: ";
+    cin >> index;
+    delete_product(products, size, index - 1);
 }

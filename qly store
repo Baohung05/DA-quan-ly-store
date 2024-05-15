@@ -32,7 +32,6 @@ istream& operator >> (istream& in, Product& product) {
 	cout << "Nhap loai san pham: " ;
 	getline(in, product.loaisp);
 	cout << "Nhap ten san pham: ";
-	in.ignore();
 	getline(in, product.tensp);
 	cout << "So Luong: ";
 	in >> product.soluong;
